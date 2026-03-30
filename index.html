@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Pour toi ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  background: linear-gradient(135deg, #e6f4ea, #b7e4c7);
+  color: #1b4332;
+  overflow-x: hidden;
+}
+
+/* écran d’intro */
+#intro {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #1b4332;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 10;
+}
+
+#intro button {
+  margin-top: 20px;
+  padding: 15px 25px;
+  background: #52b788;
+  border: none;
+  border-radius: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+/* fade */
+.fade {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* typewriter */
+.typewriter {
+  overflow: hidden;
+  border-right: 3px solid;
+  white-space: nowrap;
+  animation: typing 4s steps(40, end), blink .7s infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  50% { border-color: transparent }
+}
+
+/* galerie */
+.gallery img {
+  width: 200px;
+  margin: 10px;
+  border-radius: 15px;
+  transition: transform 0.3s;
+}
+
+.gallery img:hover {
+  transform: scale(1.1);
+}
+
+/* bouton */
+button {
+  padding: 15px 25px;
+  background: #40916c;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+/* coeurs */
+.heart {
+  position: fixed;
+  bottom: 0;
+  animation: floatUp 5s linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-800px); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <h1>J’ai quelque chose pour toi ❤️</h1>
+  <p>Prête ?</p>
+  <button onclick="start()">Clique ici</button>
+</div>
+
+<!-- AUDIO -->
+<audio id="music" loop>
+  <source src="paulyudin-love-valentine-romantic-182520.mp3" type="audio/mp3">
+</audio>
+
+<h1 class="fade">Pour Dany Gloria Jonasse ❤️</h1>
+
+<p class="typewriter">
+Même à distance, tu restes mon endroit préféré.
+</p>
+
+<h2 class="fade">Notre histoire</h2>
+
+<p class="fade">
+Ce fameux 8 mars où tout à commencé, quand j'y pense ça me fait sourire. Depuis ce jour, chaque moment passé avec toi est un trésor que je chéris. Notre amour a grandit sans que nous même on s'en rende compte et c'est ce que j'aime le plus, on a pas besoin de prétendre qui on est pas, c'est authentique.<br /><br />
+
+Même si la distance nous sépare, mon amour pour toi grandit chaque jour. Je suis tellement fier de toi et de tout ce que tu accomplis. Je sais que tu es forte et capable de surmonter tous les défis qui se présentent et se présenteront à toi. Je suis là pour toi, même à des kilomètres de distance, et je crois en nous. Je t'aime plus que les mots ne peuvent le dire, et je suis impatient de te revoir bientôt. Je t'aime fort ❤️.<br /><br />
+
+Je chéris ce jour où le bon Dieu a décidé de nous réunir, et je suis tellement reconnaissant de t'avoir dans ma vie. Chaque jour sans toi est un jour de plus à t’aimer, et je suis impatient de construire notre avenir ensemble. Je t'aime mon amour, et je suis fier de toi, peu importe la distance qui nous sépare. Je prie le seigneur de te protéger et de te guider dans tout ce que tu entreprends, et je suis là pour toi, toujours. Je t'aime fort ❤️.
+</p>
+
+<h2 class="fade">Nos souvenirs</h2>
+
+<div class="gallery fade">
+  <img src="1.jpeg">
+  <img src="2.jpeg">
+  <img src="3.jpeg">
+  <img src="4.jpeg">
+  <img src="5.jpeg">
+  <img src="6.jpeg">
+  <img src="7.jpeg">
+  <img src="8.jpeg">
+  <img src="9.jpeg">
+  <img src="10.jpeg">
+  <img src="11.jpeg">
+</div>
+
+<h2 class="fade">💌</h2>
+
+<button onclick="showMessage()">Clique quand je te manques</button>
+
+<p id="message"></p>
+
+<h2 class="fade">❤️</h2>
+<p class="fade">
+Ce n’est pas un au revoir…  
+C’est juste une nouvelle façon de s’aimer.
+</p>
+
+<script>
+function start() {
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("music").play();
+}
+
+// messages
+function showMessage() {
+  const messages = [
+    "DIEU T'AIME ❤️",
+    "Je pense à toi ❤️",
+    "Tu me manques déjà",
+    "Je suis fier de toi",
+    "On va y arriver ensemble",
+    "Tu es incroyable",
+    "JE T'AIME FORT ❤️",
+    "Chaque jour sans toi est un jour de plus à t’aimer",
+    "Tu es plus forte que tu ne le penses",
+    "Je suis là pour toi, toujours",
+    "Tu es la femme de ma vie",
+    "Je crois en toi, même à des kilomètres"
+  ];
+
+  document.getElementById("message").innerText =
+    messages[Math.floor(Math.random() * messages.length)];
+
+  createHearts();
+}
+
+// coeurs
+function createHearts() {
+  for (let i = 0; i < 12; i++) {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💚";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 5000);
+  }
+}
+</script>
+
+</body>
+</html>
