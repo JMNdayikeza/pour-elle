@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pour toi ❤️</title>
 
 <style>
@@ -14,7 +15,7 @@ body {
   overflow-x: hidden;
 }
 
-/* écran d’intro */
+/* INTRO */
 #intro {
   position: fixed;
   width: 100%;
@@ -26,16 +27,6 @@ body {
   align-items: center;
   flex-direction: column;
   z-index: 10;
-}
-
-#intro button {
-  margin-top: 20px;
-  padding: 15px 25px;
-  background: #52b788;
-  border: none;
-  border-radius: 30px;
-  color: white;
-  cursor: pointer;
 }
 
 /* fade */
@@ -52,7 +43,7 @@ body {
   }
 }
 
-/* typewriter */
+/* typewriter (DESKTOP inchangé) */
 .typewriter {
   overflow: hidden;
   border-right: 3px solid;
@@ -69,7 +60,7 @@ body {
   50% { border-color: transparent }
 }
 
-/* galerie */
+/* galerie (DESKTOP comme avant) */
 .gallery img {
   width: 200px;
   margin: 10px;
@@ -96,6 +87,12 @@ button:hover {
   transform: scale(1.1);
 }
 
+/* message */
+#message {
+  font-size: 20px;
+  margin-top: 20px;
+}
+
 /* coeurs */
 .heart {
   position: fixed;
@@ -106,6 +103,51 @@ button:hover {
 @keyframes floatUp {
   0% { transform: translateY(0); opacity: 1; }
   100% { transform: translateY(-800px); opacity: 0; }
+}
+
+/* 📱 MOBILE UNIQUEMENT */
+@media (max-width: 600px) {
+
+  body {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* typewriter corrigé mobile */
+  .typewriter {
+    white-space: normal;
+    border-right: none;
+    animation: none;
+  }
+
+  /* galerie responsive */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+
+  .gallery img {
+    width: 100%;
+    margin: 0;
+  }
+
+  button {
+    width: 80%;
+  }
+
 }
 </style>
 </head>
@@ -174,7 +216,6 @@ function start() {
   document.getElementById("music").play();
 }
 
-// messages
 function showMessage() {
   const messages = [
     "DIEU T'AIME ❤️",
@@ -197,7 +238,6 @@ function showMessage() {
   createHearts();
 }
 
-// coeurs
 function createHearts() {
   for (let i = 0; i < 12; i++) {
     let heart = document.createElement("div");
