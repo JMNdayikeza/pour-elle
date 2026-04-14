@@ -10,8 +10,8 @@ body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   text-align: center;
-  background: linear-gradient(135deg, #e6f4ea, #b7e4c7);
-  color: #1b4332;
+  background: radial-gradient(circle at top, #081c15, #1b4332);
+  color: #d8f3dc;
   overflow-x: hidden;
 }
 
@@ -20,19 +20,39 @@ body {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: #1b4332;
-  color: white;
+  background: #081c15;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   z-index: 10;
+  transition: 1s;
+}
+
+#intro.hide {
+  opacity: 0;
+  transform: scale(1.2);
+}
+
+/* étoiles */
+.star {
+  position: fixed;
+  width: 2px;
+  height: 2px;
+  background: white;
+  opacity: 0.8;
+  animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+  from {opacity: 0.2;}
+  to {opacity: 1;}
 }
 
 /* fade */
 .fade {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(30px);
   animation: fadeIn 2s forwards;
 }
 
@@ -43,39 +63,22 @@ body {
   }
 }
 
-/* typewriter (DESKTOP inchangé) */
-.typewriter {
-  overflow: hidden;
-  border-right: 3px solid;
-  white-space: nowrap;
-  animation: typing 4s steps(40, end), blink .7s infinite;
-}
-
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-
-@keyframes blink {
-  50% { border-color: transparent }
-}
-
-/* galerie (DESKTOP comme avant) */
+/* galerie */
 .gallery img {
   width: 200px;
   margin: 10px;
   border-radius: 15px;
-  transition: transform 0.3s;
+  transition: 0.4s;
 }
 
 .gallery img:hover {
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(2deg);
 }
 
 /* bouton */
 button {
   padding: 15px 25px;
-  background: #40916c;
+  background: #52b788;
   color: white;
   border: none;
   border-radius: 30px;
@@ -84,13 +87,14 @@ button {
 }
 
 button:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
-/* message */
-#message {
-  font-size: 20px;
-  margin-top: 20px;
+/* compteur */
+#counter {
+  font-size: 22px;
+  margin: 20px;
+  color: #95d5b2;
 }
 
 /* coeurs */
@@ -105,49 +109,19 @@ button:hover {
   100% { transform: translateY(-800px); opacity: 0; }
 }
 
-/* 📱 MOBILE UNIQUEMENT */
-@media (max-width: 600px) {
-
-  body {
-    padding: 10px;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  h2 {
-    font-size: 1.4rem;
-  }
-
-  p {
-    font-size: 0.95rem;
-    line-height: 1.6;
-  }
-
-  /* typewriter corrigé mobile */
-  .typewriter {
-    white-space: normal;
-    border-right: none;
-    animation: none;
-  }
-
-  /* galerie responsive */
-  .gallery {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 5px;
-  }
-
-  .gallery img {
-    width: 100%;
-    margin: 0;
-  }
-
-  button {
-    width: 80%;
-  }
-
+/* surprise */
+#surprise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 20;
 }
 </style>
 </head>
@@ -156,19 +130,27 @@ button:hover {
 
 <!-- INTRO -->
 <div id="intro">
-  <h1>J’ai quelque chose pour toi ❤️</h1>
-  <p>Prête ?</p>
-  <button onclick="start()">Clique ici</button>
+  <h1>Ferme les yeux… ❤️</h1>
+  <p>Puis clique quand tu es prête</p>
+  <button onclick="start()">Entrer</button>
+</div>
+
+<!-- SURPRISE -->
+<div id="surprise">
+  <h1>Je t’aime infiniment ❤️</h1>
+  <button onclick="closeSurprise()">Retour</button>
 </div>
 
 <!-- AUDIO -->
 <audio id="music" loop>
-  <source src="paulyudin-love-valentine-romantic-182520.mp3" type="audio/mp3">
+  <source src="paulyudin-love-valentine-romantic-182520.mp3">
 </audio>
 
 <h1 class="fade">Pour Dany Gloria Jonasse ❤️</h1>
 
-<p class="typewriter">
+<div id="counter"></div>
+
+<p class="fade typewriter">
 Même à distance, tu restes mon endroit préféré.
 </p>
 
@@ -201,6 +183,7 @@ Je chéris ce jour où le bon Dieu a décidé de nous réunir, et je suis tellem
 <h2 class="fade">💌</h2>
 
 <button onclick="showMessage()">Clique quand je te manques</button>
+<button onclick="openSurprise()">🎁 Surprise</button>
 
 <p id="message"></p>
 
@@ -212,10 +195,40 @@ C’est juste une nouvelle façon de s’aimer.
 
 <script>
 function start() {
-  document.getElementById("intro").style.display = "none";
+  document.getElementById("intro").classList.add("hide");
+  setTimeout(() => {
+    document.getElementById("intro").style.display = "none";
+  }, 1000);
   document.getElementById("music").play();
 }
 
+/* étoiles */
+for(let i=0;i<80;i++){
+  let star = document.createElement("div");
+  star.className = "star";
+  star.style.left = Math.random()*100+"vw";
+  star.style.top = Math.random()*100+"vh";
+  document.body.appendChild(star);
+}
+
+/* compteur */
+const startDate = new Date("2026-03-08T00:00:00");
+
+function updateCounter() {
+  const now = new Date();
+  const diff = now - startDate;
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+  document.getElementById("counter").innerText =
+    `${days} jours ${hours}h ${minutes}min d’amour ❤️`;
+}
+
+setInterval(updateCounter, 1000);
+
+/* messages */
 function showMessage() {
   const messages = [
     "DIEU T'AIME ❤️",
@@ -224,22 +237,17 @@ function showMessage() {
     "Je suis fier de toi",
     "On va y arriver ensemble",
     "Tu es incroyable",
-    "JE T'AIME FORT ❤️",
-    "Chaque jour sans toi est un jour de plus à t’aimer",
-    "Tu es plus forte que tu ne le penses",
-    "Je suis là pour toi, toujours",
-    "Tu es la femme de ma vie",
-    "Je crois en toi, même à des kilomètres"
+    "JE T'AIME FORT ❤️"
   ];
 
   document.getElementById("message").innerText =
-    messages[Math.floor(Math.random() * messages.length)];
+    messages[Math.floor(Math.random()*messages.length)];
 
   createHearts();
 }
 
 function createHearts() {
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 15; i++) {
     let heart = document.createElement("div");
     heart.className = "heart";
     heart.innerHTML = "💚";
@@ -249,6 +257,15 @@ function createHearts() {
 
     setTimeout(() => heart.remove(), 5000);
   }
+}
+
+function openSurprise() {
+  document.getElementById("surprise").style.display = "flex";
+  createHearts();
+}
+
+function closeSurprise() {
+  document.getElementById("surprise").style.display = "none";
 }
 </script>
 
